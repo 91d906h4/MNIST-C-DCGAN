@@ -24,12 +24,12 @@ class Discriminator(nn.Module):
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = self.block1(x)
-        x = self.block2(x)
-        x = self.block3(x)
-        x = self.conv1(x)
+        x = self.block1(x) # 1 x 28 x 28 -> 64 x 14 x 14
+        x = self.block2(x) # 64 x 14 x 14 -> 128 x 7 x 7
+        x = self.block3(x) # 128 x 7 x 7 -> 256 x 3 x 3
 
-        x = self.flatten(x)
+        x = self.conv1(x) # 256 x 3 x 3 -> 1 x 1 x 1
+        x = self.flatten(x) # 1 x 1 x 1 -> 1
 
         x = self.sigmoid(x)
 
@@ -55,10 +55,11 @@ class Generator(nn.Module):
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = self.block1(x)
-        x = self.block2(x)
-        x = self.block3(x)
-        x = self.conv1(x)
+        x = self.block1(x) # z_dim x 1 x 1 -> 256 x 4 x 4
+        x = self.block2(x) # 256 x 4 x 4 -> 128 x 8 x 8
+        x = self.block3(x) # 128 x 8 x 8 -> 64 x 16 x 16
+
+        x = self.conv1(x) # 64 x 16 x 16 -> 1 x 28 x 28
 
         x = self.tanh(x)
 
