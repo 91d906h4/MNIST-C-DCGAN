@@ -9,13 +9,12 @@ from network import Discriminator, Generator
 
 
 class Trainer():
-    def __init__(self, epochs: int, data_loader: DataLoader, batch_size: int, z_dim: int, d_model: Discriminator, g_model: Generator, d_optimizer: optim.Adam, g_optimizer: optim.Adam, d_loss_fn: nn.BCELoss, g_loss_fn: nn.BCELoss, device: torch.device) -> None:
+    def __init__(self, data_loader: DataLoader, batch_size: int, z_dim: int, d_model: Discriminator, g_model: Generator, d_optimizer: optim.Adam, g_optimizer: optim.Adam, d_loss_fn: nn.BCELoss, g_loss_fn: nn.BCELoss, device: torch.device) -> None:
         """Trainer class
 
         The trainer class of the discriminator and generator models.
         
         Args:
-            epochs (int): The number of epochs.
             data_loader (DataLoader): Data loader.
             batch_size (int): Batch size.
             z_dim (int): Noise dimension.
@@ -28,8 +27,7 @@ class Trainer():
             device (torch.device): Device to train models.
 
         """
-        
-        self.epochs         = epochs
+
         self.data_loader    = data_loader
         self.batch_size     = batch_size
         self.z_dim          = z_dim
@@ -70,11 +68,10 @@ class Trainer():
         y_fake = torch.zeros(self.batch_size, 1).to(device=self.device)
 
         # Generate fake data.
-        with torch.no_grad():
-            x_fake = self.g_model(z)
+        x_fake = self.g_model(z)
 
         # Get output of fake data from discriminator.
-        output_fake = self.d_model(x_fake)
+        output_fake = self.d_model(x_fake.detach())
 
         # Calculate loss of fake data.
         loss_fake = self.d_loss_fn(output_fake, y_fake)
@@ -122,12 +119,13 @@ class Trainer():
 
         return loss.item()
 
-    def train(self, dg_ratio: int, test: bool=False) -> None:
+    def train(self, epochs: int, dg_ratio: int, test: bool=False) -> None:
         """train public method
         
         The public method to train the discriminator and generator models.
         
         Args:
+            epochs (int): The number of epochs.
             dg_ratio (int): Number of times to train the generator while training the discriminator.
             test (bool, optional): Whether to test the model. Defaults to False.
 
@@ -137,7 +135,7 @@ class Trainer():
         self.d_model.train()
         self.g_model.train()
 
-        for epoch in range(self.epochs):
+        for epoch in range(epochs):
             # Set defualt values.
             d_loss = 0
             g_loss = 0
