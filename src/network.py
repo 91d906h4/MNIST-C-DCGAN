@@ -17,7 +17,8 @@ class Discriminator(nn.Module):
         self.flatten = nn.Flatten()
         self.sigmoid = nn.Sigmoid()
 
-    def block(self, in_channels: int, out_channels: int, kernel_size: int) -> nn.Sequential:
+    @staticmethod
+    def block(in_channels: int, out_channels: int, kernel_size: int) -> nn.Sequential:
         return nn.Sequential(
             nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size, padding="same"),
             nn.BatchNorm2d(out_channels),
@@ -56,8 +57,8 @@ class Generator(nn.Module):
 
         self.tanh = nn.Tanh()
 
-
-    def block(self, in_channels: int, out_channels: int, kernel_size: int) -> nn.Sequential:
+    @staticmethod
+    def block(in_channels: int, out_channels: int, kernel_size: int) -> nn.Sequential:
         return nn.Sequential(
             nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size, padding="same"),
             nn.BatchNorm2d(out_channels),
