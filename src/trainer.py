@@ -10,6 +10,25 @@ from network import Discriminator, Generator
 
 class Trainer():
     def __init__(self, epochs: int, data_loader: DataLoader, batch_size: int, z_dim: int, d_model: Discriminator, g_model: Generator, d_optimizer: optim.Adam, g_optimizer: optim.Adam, d_loss_fn: nn.BCELoss, g_loss_fn: nn.BCELoss, device: torch.device) -> None:
+        """Trainer class
+
+        The trainer class of the discriminator and generator models.
+        
+        Args:
+            epochs (int): The number of epochs.
+            data_loader (DataLoader): Data loader.
+            batch_size (int): Batch size.
+            z_dim (int): Noise dimension.
+            d_model (Discriminator): Discriminator model.
+            g_model (Generator): Generator model.
+            d_optimizer (optim.Adam): Discriminator optimizer.
+            g_optimizer (optim.Adam): Generator optimizer.
+            d_loss_fn (nn.BCELoss): Discriminator loss function.
+            g_loss_fn (nn.BCELoss): Generator loss function.
+            device (torch.device): Device to train models.
+
+        """
+        
         self.epochs         = epochs
         self.data_loader    = data_loader
         self.batch_size     = batch_size
@@ -22,24 +41,45 @@ class Trainer():
         self.g_loss_fn      = g_loss_fn
         self.device         = device
 
-        self.prompt         = torch.tensor(0).to(device=device)
-
     def _train_discriminator(self, x: torch.Tensor) -> float:
+        """_train_discriminator private method
+        
+        The private method to train the discriminator model.
+
+        Args:
+            x (torch.Tensor): Input data.
+
+        """
+
+        # Generate real data and label.
+        # We want the discriminator to classify real data as 1, so we
+        # set all y_real to ones.
         x_real = x.to(device=self.device)
         y_real = torch.ones(self.batch_size, 1).to(device=self.device)
 
+        # Get output of real data from discriminator.
         output_real = self.d_model(x_real)
+
+        # Calculate loss of real data.
         loss_real = self.d_loss_fn(output_real, y_real)
 
+        # Generate noise input and fake label.
+        # We want the discriminator to classify fake data as 0, so we
+        # set all y_fake to zeros.
         z = torch.randn(self.batch_size, 1, 7, 7).to(device=self.device)
         y_fake = torch.zeros(self.batch_size, 1).to(device=self.device)
 
+        # Generate fake data.
         with torch.no_grad():
             x_fake = self.g_model(z)
 
+        # Get output of fake data from discriminator.
         output_fake = self.d_model(x_fake)
+
+        # Calculate loss of fake data.
         loss_fake = self.d_loss_fn(output_fake, y_fake)
 
+        # Calculate total loss.
         loss = loss_real + loss_fake
 
         # Update model.
@@ -50,13 +90,29 @@ class Trainer():
         return loss.item()
 
     def _train_generator(self, x: torch.Tensor, prompt: torch.Tensor) -> float:
+        """_train_generator private method
+        
+        The private method to train the generator model.
+
+        Args:
+            x (torch.Tensor): Input data.
+            prompt (torch.Tensor): Text prompt data.
+
+        """
+
+        # Generate noise input and fake label.
+        # In the training step of generator, we want the discriminator
+        # to classify fake data as 1, so we set all y_fake to ones.
         z = torch.randn(self.batch_size, 1, 7, 7, dtype=torch.float32).to(device=self.device)
         y = torch.ones(self.batch_size, 1).to(device=self.device)
 
+        # Generate fake data.
         x_fake = self.g_model(z)
 
+        # Get output of fake data from discriminator.
         y_fake = self.d_model(x_fake)
 
+        # Calculate loss of fake data.
         loss = self.g_loss_fn(y_fake, y)
 
         # Update model.
@@ -67,6 +123,17 @@ class Trainer():
         return loss.item()
 
     def train(self, dg_ratio: int, test: bool=False) -> None:
+        """train public method
+        
+        The public method to train the discriminator and generator models.
+        
+        Args:
+            dg_ratio (int): Number of times to train the generator while training the discriminator.
+            test (bool, optional): Whether to test the model. Defaults to False.
+
+        """
+
+        # Set model to training mode.
         self.d_model.train()
         self.g_model.train()
 
@@ -82,14 +149,16 @@ class Trainer():
             total = len(self.data_loader)
             counter = 0
 
-            for x, _ in self.data_loader:
+            for data, label in self.data_loader:
                 # Skip batch if not enough data.
-                if x.shape[0] != self.batch_size: continue
+                if data.shape[0] != self.batch_size: continue
 
-                d_loss += self._train_discriminator(x)
+                # Train discriminator.
+                d_loss += self._train_discriminator(data)
 
+                # Train generator.
                 for _ in range(dg_ratio):
-                    g_loss += self._train_generator(x, self.prompt)
+                    g_loss += self._train_generator(data, label)
 
                 counter += 1
 
@@ -117,6 +186,13 @@ class Trainer():
 
     @torch.no_grad()
     def test(self) -> None:
+        """test public method
+        
+        The public method to test the model.
+
+        """
+
+        # Set model to evaluation mode.
         self.d_model.eval()
         self.g_model.eval()
 
