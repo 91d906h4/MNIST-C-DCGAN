@@ -9,7 +9,7 @@ from network import Discriminator, Generator
 
 
 class Trainer():
-    def __init__(self, data_loader: DataLoader, batch_size: int, z_dim: int, d_model: Discriminator, g_model: Generator, d_optimizer: optim.Adam, g_optimizer: optim.Adam, d_loss_fn: nn.BCELoss, g_loss_fn: nn.BCELoss, device: torch.device, z_shape: tuple) -> None:
+    def __init__(self, data_loader: DataLoader, batch_size: int, d_model: Discriminator, g_model: Generator, d_optimizer: optim.Adam, g_optimizer: optim.Adam, d_loss_fn: nn.BCELoss, g_loss_fn: nn.BCELoss, device: torch.device, z_shape: tuple) -> None:
         """Trainer class
 
         The trainer class of the discriminator and generator models.
@@ -17,7 +17,6 @@ class Trainer():
         Args:
             data_loader (DataLoader): Data loader.
             batch_size (int): Batch size.
-            z_dim (int): Noise dimension.
             d_model (Discriminator): Discriminator model.
             g_model (Generator): Generator model.
             d_optimizer (optim.Adam): Discriminator optimizer.
@@ -31,7 +30,6 @@ class Trainer():
 
         self.data_loader    = data_loader
         self.batch_size     = batch_size
-        self.z_dim          = z_dim
         self.d_model        = d_model
         self.g_model        = g_model
         self.d_optimizer    = d_optimizer
