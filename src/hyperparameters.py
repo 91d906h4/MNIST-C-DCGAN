@@ -9,5 +9,8 @@ beta1           = 0.5           # Beta values for Adam.
 beta2           = 0.999
 learning_rate   = 1e-5          # Learning rate.
 
+# Model.
+z_shape         = (100, 1, 1)   # Noise shape.
+
 # Trainer.
 epochs          = 10            # Epochs.
