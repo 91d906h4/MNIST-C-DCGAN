@@ -132,6 +132,7 @@ class Trainer():
             epochs (int): The number of epochs.
             dg_ratio (int): Number of times to train the generator while training the discriminator.
             test (bool, optional): Whether to test the model. Defaults to False.
+            test_num (int, optional): Number of images to test. (default: 16)
 
         """
 
@@ -160,7 +161,7 @@ class Trainer():
 
                 # Train generator.
                 for _ in range(dg_ratio):
-                    g_loss += self._train_generator(data, label)
+                    g_loss += self._train_generator(data, label) / dg_ratio
 
                 counter += 1
 
@@ -191,6 +192,9 @@ class Trainer():
         """test public method
         
         The public method to test the model.
+
+        Args:
+            num (int, optional): Number of images to generate. (default: 16)
 
         """
 
