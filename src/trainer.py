@@ -49,6 +49,8 @@ class Trainer():
 
         """
 
+        # 1. Train the discriminator with real data.
+
         # Generate real data and label.
         # We want the discriminator to classify real data as 1, so we
         # set all y_real to ones.
@@ -60,6 +62,8 @@ class Trainer():
 
         # Calculate loss of real data.
         loss_real = self.d_loss_fn(output_real, y_real)
+
+        # 2. Train the discriminator with fake data.
 
         # Generate noise input and fake label.
         # We want the discriminator to classify fake data as 0, so we
@@ -119,7 +123,7 @@ class Trainer():
 
         return loss.item()
 
-    def train(self, epochs: int, dg_ratio: int, test: bool=False) -> None:
+    def train(self, epochs: int, dg_ratio: int, test: bool=False, test_num: int=16) -> None:
         """train public method
         
         The public method to train the discriminator and generator models.
@@ -176,14 +180,14 @@ class Trainer():
                 f"Time: {time.time() - start_time:.3f} | "
                 f"D Loss: {d_loss / total:.3f} | "
                 f"G Loss: {g_loss / total:.3f}"
-                f"                              ",
+                f"                              ", # Append empty string to clear the output.
             )
 
             # Test while training.
-            if test: self.test()
+            if test: self.test(num=test_num)
 
     @torch.no_grad()
-    def test(self) -> None:
+    def test(self, num: int=16) -> None:
         """test public method
         
         The public method to test the model.
@@ -194,13 +198,25 @@ class Trainer():
         self.d_model.eval()
         self.g_model.eval()
 
-        z = torch.randn((16, 1, 7, 7), dtype=torch.float32).to(device=self.device)
+        # Generate noise input.
+        z = torch.randn((num, 1, 7, 7), dtype=torch.float32).to(device=self.device)
+
+        # Generate data.
         outputs = self.g_model(z)
 
+        # Set figure.
         figure = plt.figure(figsize=(8, 8))
 
         for i, image in enumerate(outputs):
-            figure.add_subplot(8, 8, i + 1)
-            plt.imshow(image.cpu().detach().numpy()[0, :, :], cmap='gray')
+            # Set subplot.
+            axes = figure.add_subplot(8, 8, i + 1)
+            axes.set_axis_off()
+
+            # Detach data from GPU.
+            image = image.cpu().detach().numpy()
+            image = image[0, :, :]
+
+            # Add image.
+            plt.imshow(image, cmap='gray')
 
         plt.show()
