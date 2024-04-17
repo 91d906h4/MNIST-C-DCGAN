@@ -12,6 +12,12 @@ This is a handwritten number generator that allows users to utilize prompts.
 
 ## Contributing
 
+We welcome pull requests from contributors. If you plan to make significant changes, kindly open an issue beforehand to initiate a discussion on the proposed modifications.
+
+Ensure that appropriate tests are updated or added along with any changes made.
+
+Your attention to this matter is appreciated!
+
 ## License
 
 This project is licensed under the [PROPRIETARY LICENSE](https://github.com/91d906h4/H-Go/blob/main/LICENSE), which prohibits any use, copying, modification, or distribution of the software without explicit written permission from the copyright holder.
