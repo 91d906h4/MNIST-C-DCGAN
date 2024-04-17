@@ -1,16 +1,16 @@
 # Set Hyper-Parameters.
 
 # Dataset.
-dataset_path    = "../dataset"  # The path of dataset.
-batch_size      = 128           # Batch size.
+DATASET_PATH    = "../dataset"  # The path of dataset.
+BATCH_SIZE      = 128           # Batch size.
 
 # Optimizer.
-beta1           = 0.5           # Beta values for Adam.
-beta2           = 0.999
-learning_rate   = 1e-5          # Learning rate.
+BETA1           = 0.5           # Beta values for Adam.
+BETA2           = 0.999
+LEARNING_RATE   = 1e-5          # Learning rate.
 
 # Model.
-z_shape         = (100, 1, 1)   # Noise shape.
+Z_SHAPE         = (100, 1, 1)   # Noise shape.
 
 # Trainer.
-epochs          = 10            # Epochs.
+EPOCHS          = 10            # Epochs.
