@@ -4,6 +4,8 @@ This is a handwritten number generator that allows users to utilize prompts.
 
 ## Introduction
 
+![MNIST.gif](./asset/MNIST.gif)
+
 ## Installation
 
 ## Usage
