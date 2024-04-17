@@ -66,7 +66,7 @@ class Trainer():
 
         return loss.item()
 
-    def train(self) -> None:
+    def train(self, dg_ratio: int, test: bool=False) -> None:
         self.d_model.train()
         self.g_model.train()
 
@@ -88,7 +88,7 @@ class Trainer():
 
                 d_loss += self._train_discriminator(x)
 
-                for _ in range(1):
+                for _ in range(dg_ratio):
                     g_loss += self._train_generator(x, self.prompt)
 
                 counter += 1
@@ -112,7 +112,8 @@ class Trainer():
                 f"                              ",
             )
 
-            self.test()
+            # Test while training.
+            if test: self.test()
 
     @torch.no_grad()
     def test(self) -> None:
