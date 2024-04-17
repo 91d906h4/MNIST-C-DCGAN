@@ -9,7 +9,7 @@ from network import Discriminator, Generator
 
 
 class Trainer():
-    def __init__(self, data_loader: DataLoader, batch_size: int, z_dim: int, d_model: Discriminator, g_model: Generator, d_optimizer: optim.Adam, g_optimizer: optim.Adam, d_loss_fn: nn.BCELoss, g_loss_fn: nn.BCELoss, device: torch.device) -> None:
+    def __init__(self, data_loader: DataLoader, batch_size: int, z_dim: int, d_model: Discriminator, g_model: Generator, d_optimizer: optim.Adam, g_optimizer: optim.Adam, d_loss_fn: nn.BCELoss, g_loss_fn: nn.BCELoss, device: torch.device, z_shape: tuple) -> None:
         """Trainer class
 
         The trainer class of the discriminator and generator models.
@@ -25,6 +25,7 @@ class Trainer():
             d_loss_fn (nn.BCELoss): Discriminator loss function.
             g_loss_fn (nn.BCELoss): Generator loss function.
             device (torch.device): Device to train models.
+            z_shape (tuple): Noise shape. (e.g., (100, 1, 1))
 
         """
 
@@ -38,6 +39,7 @@ class Trainer():
         self.d_loss_fn      = d_loss_fn
         self.g_loss_fn      = g_loss_fn
         self.device         = device
+        self.z_shape        = z_shape
 
     def _train_discriminator(self, x: torch.Tensor) -> float:
         """_train_discriminator private method
@@ -68,14 +70,17 @@ class Trainer():
         # Generate noise input and fake label.
         # We want the discriminator to classify fake data as 0, so we
         # set all y_fake to zeros.
-        z = torch.randn(self.batch_size, 1, 7, 7).to(device=self.device)
+        z = torch.randn((self.batch_size, *self.z_shape)).to(device=self.device)
         y_fake = torch.zeros(self.batch_size, 1).to(device=self.device)
 
         # Generate fake data.
         x_fake = self.g_model(z)
 
+        # Detach data from g_model to prevent backpropagation.
+        x_fake = x_fake.detach()
+
         # Get output of fake data from discriminator.
-        output_fake = self.d_model(x_fake.detach())
+        output_fake = self.d_model(x_fake)
 
         # Calculate loss of fake data.
         loss_fake = self.d_loss_fn(output_fake, y_fake)
@@ -104,7 +109,7 @@ class Trainer():
         # Generate noise input and fake label.
         # In the training step of generator, we want the discriminator
         # to classify fake data as 1, so we set all y_fake to ones.
-        z = torch.randn(self.batch_size, 1, 7, 7, dtype=torch.float32).to(device=self.device)
+        z = torch.randn((self.batch_size, *self.z_shape), dtype=torch.float32).to(device=self.device)
         y = torch.ones(self.batch_size, 1).to(device=self.device)
 
         # Generate fake data.
@@ -203,7 +208,7 @@ class Trainer():
         self.g_model.eval()
 
         # Generate noise input.
-        z = torch.randn((num, 1, 7, 7), dtype=torch.float32).to(device=self.device)
+        z = torch.randn((num, *self.z_shape), dtype=torch.float32).to(device=self.device)
 
         # Generate data.
         outputs = self.g_model(z)
