@@ -2,8 +2,8 @@
 
 # Dataset.
 dataset_path    = "../dataset"  # The path of dataset.
-batch_size      = 16            # Batch size.
+batch_size      = 128           # Batch size.
 
 # Model.
-epochs          = 1             # Epochs.
+epochs          = 10            # Epochs.
 learning_rate   = 0.00001       # Learning rate.
