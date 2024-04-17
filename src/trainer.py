@@ -1,3 +1,4 @@
+import time
 import torch
 
 import matplotlib.pyplot as plt
@@ -23,7 +24,7 @@ class Trainer():
 
         self.prompt         = torch.tensor(0).to(device=device)
 
-    def _train_discriminator(self, x: torch.Tensor) -> None:
+    def _train_discriminator(self, x: torch.Tensor) -> float:
         x_real = x.to(device=self.device)
         y_real = torch.ones(self.batch_size, 1).to(device=self.device)
 
@@ -46,7 +47,9 @@ class Trainer():
         loss.backward()
         self.d_optimizer.step()
 
-    def _train_generator(self, x: torch.Tensor, prompt: torch.Tensor) -> None:
+        return loss.item()
+
+    def _train_generator(self, x: torch.Tensor, prompt: torch.Tensor) -> float:
         z = torch.randn(self.batch_size, 1, 7, 7, dtype=torch.float32).to(device=self.device)
         y = torch.ones(self.batch_size, 1).to(device=self.device)
 
@@ -61,21 +64,55 @@ class Trainer():
         loss.backward()
         self.g_optimizer.step()
 
+        return loss.item()
+
     def train(self) -> None:
         self.d_model.train()
         self.g_model.train()
 
         for epoch in range(self.epochs):
+            # Set defualt values.
+            d_loss = 0
+            g_loss = 0
+
+            # Set clock.
+            start_time = time.time()
+
+            # Set counter.
+            total = len(self.data_loader)
+            counter = 0
+
             for x, _ in self.data_loader:
                 # Skip batch if not enough data.
                 if x.shape[0] != self.batch_size: continue
 
-                self._train_discriminator(x)
+                d_loss += self._train_discriminator(x)
 
-                for _ in range(2):
-                    self._train_generator(x, self.prompt)
-            
-            print(f"Epoch: {epoch}")
+                for _ in range(1):
+                    g_loss += self._train_generator(x, self.prompt)
+
+                counter += 1
+
+                # Print training progress.
+                print(
+                    f"Epoch: {epoch} | "
+                    f"Time: {time.time() - start_time:.3f} | "
+                    f"Progress: {counter / total * 100:.3f}% | "
+                    f"D Loss: {d_loss / counter:.3f} | "
+                    f"G Loss: {g_loss / counter:.3f}",
+                    end="\r"
+                )
+
+            # Print training progress.
+            print(
+                f"Epoch: {epoch} | "
+                f"Time: {time.time() - start_time:.3f} | "
+                f"D Loss: {d_loss / total:.3f} | "
+                f"G Loss: {g_loss / total:.3f}"
+                f"                              ",
+            )
+
+            self.test()
 
     @torch.no_grad()
     def test(self) -> None:
