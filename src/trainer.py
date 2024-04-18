@@ -46,6 +46,7 @@ class Trainer():
 
         Args:
             x (torch.Tensor): Input data.
+            label (torch.Tensor): Text prompt data.
 
         """
 
@@ -132,7 +133,7 @@ class Trainer():
 
         return loss.item()
 
-    def train(self, epochs: int, dg_ratio: int, test: bool=False, test_num: int=16) -> None:
+    def train(self, epochs: int, dg_ratio: int, test: bool=False, test_num: int=30) -> None:
         """train public method
         
         The public method to train the discriminator and generator models.
@@ -141,7 +142,7 @@ class Trainer():
             epochs (int): The number of epochs.
             dg_ratio (int): Number of times to train the generator while training the discriminator.
             test (bool, optional): Whether to test the model. Defaults to False.
-            test_num (int, optional): Number of images to test. (default: 16)
+            test_num (int, optional): Number of images to test. (default: 30)
 
         """
 
@@ -197,13 +198,13 @@ class Trainer():
             if test: self.test(num=test_num)
 
     @torch.no_grad()
-    def test(self, num: int=16) -> None:
+    def test(self, num: int=30) -> None:
         """test public method
         
         The public method to test the model.
 
         Args:
-            num (int, optional): Number of images to generate. (default: 16)
+            num (int, optional): Number of images to generate. (default: 30)
 
         """
 
