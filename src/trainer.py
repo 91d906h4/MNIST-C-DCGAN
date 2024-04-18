@@ -191,7 +191,7 @@ class Trainer():
                 f"Time: {time.time() - start_time:.3f} | "
                 f"D Loss: {d_loss / total:.3f} | "
                 f"G Loss: {g_loss / total:.3f}"
-                f"                              ", # Append empty string to clear the output.
+                f"                              " # Append empty string to clear the output.
             )
 
             # Test while training.
