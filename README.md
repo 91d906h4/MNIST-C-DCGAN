@@ -1,6 +1,6 @@
-# MNIST DCGAN with Prompt
+# MNIST C-DCGAN
 
-This is a handwritten number generator that allows users to utilize prompts.
+This is a Conditional Deep Convolutional Generative Adversarial Network (C-DCGAN) for handwritten number.
 
 ## Introduction
 
@@ -15,6 +15,8 @@ This is a handwritten number generator that allows users to utilize prompts.
 ## Installation
 
 ## Usage
+
+If you want to run unconditional DCGAN, please jump to [dd7455](https://github.com/91d906h4/MNIST-C-DCGAN/tree/dd7455ee1727d4148dada590e0fd710ef787c71a) and download the files.
 
 ## TODO
 
