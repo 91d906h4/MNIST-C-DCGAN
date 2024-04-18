@@ -7,14 +7,14 @@ This is a Conditional Deep Convolutional Generative Adversarial Network (C-DCGAN
 In machine learning, generative adversarial networks (GANs) are a state-of-the-art invention. These algorithms have made significant contributions to the field of generative models by producing data that closely resembles datasets seen in the real world, for which they have received great praise. These models attempt to interpret the underlying structure of provided datasets, and are essential for jobs involving unsupervised learning.
 
 <div align="center">
-    <img src="./asset/DCGAN_generator_architecture.png" /><br />
+    <img src="./assets/DCGAN_generator_architecture.png" /><br />
     <i>DCGAN Generator Architecture.</i>
 </div><br />
 
 By adding more conditional information to the generation process, Conditional Generative Adversarial Networks (cGANs) are an extension of regular GANs. Class labels and other auxiliary variables are examples of additional input information that cGANs use in order to regulate the generation process, in contrast to conventional GANs that create samples from random noise vectors.
 
 <div align="center">
-    <img src="./asset/C-GAN_architecture.png" /><br />
+    <img src="./assets/C-GAN_architecture.png" /><br />
     <i>cGAN architecture.</i>
 </div><br />
 
@@ -54,14 +54,14 @@ If you want to run unconditional DCGAN, please jump to [dd7455e](https://github.
 The results of an GANs are shown in the first GIF. It is clear that the machine has a tendency to produce the number "1" more often. This observation could be explained by the fact that the digit "1" with its inherent simplicity and structural regularity is easier for the model to generate than other digits with more complex structures.
 
 <div align="center">
-    <img src="./asset/MNIST.gif" /><br />
+    <img src="./assets/MNIST.gif" /><br />
     <i>0 ~ 20 epoch of DCGAN.</i>
 </div><br />
 
 The results of our C-DCGAN after two training epochs are shown in the second picture. There has been a noticeable improvement, as certain recognizable numbers can now be easily identified in the created image.
 
 <div align="center">
-    <img src="./asset/C-DCGAN.png" /><br />
+    <img src="./assets/C-DCGAN.png" /><br />
     <i>C-DCGAN after 2 epochs training.</i>
 </div>
 
