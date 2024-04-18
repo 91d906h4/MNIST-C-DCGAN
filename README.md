@@ -34,6 +34,8 @@ This project is licensed under the [PROPRIETARY LICENSE](https://github.com/91d9
 
 ## References
 
-[1] @gensal, "【Pytorch】MNISTのGAN（敵対的生成ネットワーク）を実装する," Qiita, Sep. 30, 2022. [Online]. Available: https://qiita.com/gensal/items/4be65d9b36fac02f877e<br />
-[2] lyeoni, "pytorch-mnist-GAN," GitHub. [Online]. Available: https://github.com/lyeoni/pytorch-mnist-GAN<br />
-[3] znxlwm, "pytorch-MNIST-CelebA-GAN-DCGAN," GitHub. [Online]. Available: https://github.com/znxlwm/pytorch-MNIST-CelebA-GAN-DCGAN
+[1] A. Radford, L. Metz, and S. Chintala, "Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks," arXiv:1511.06434 [cs.LG], Nov. 2015. [Online]. Available: https://arxiv.org/abs/1511.06434<br />
+[2] M. Mirza and S. Osindero, "Conditional Generative Adversarial Nets," arXiv:1411.1784 [cs.LG], Nov. 2014. [Online]. Available: https://arxiv.org/abs/1411.1784<br />
+[3] @gensal, "【Pytorch】MNISTのGAN（敵対的生成ネットワーク）を実装する," Qiita, Sep. 30, 2022. [Online]. Available: https://qiita.com/gensal/items/4be65d9b36fac02f877e<br />
+[4] lyeoni, "pytorch-mnist-GAN," GitHub. [Online]. Available: https://github.com/lyeoni/pytorch-mnist-GAN<br />
+[5] znxlwm, "pytorch-MNIST-CelebA-GAN-DCGAN," GitHub. [Online]. Available: https://github.com/znxlwm/pytorch-MNIST-CelebA-GAN-DCGAN
