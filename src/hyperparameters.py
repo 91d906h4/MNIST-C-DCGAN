@@ -3,6 +3,7 @@
 # Dataset.
 DATASET_PATH        = "../dataset"  # The path of dataset.
 BATCH_SIZE          = 16            # Batch size.
+IMAGE_SIZE          = 28            # The size of image.
 
 # Optimizer.
 BETA1               = 0.5           # Beta values for Adam.
