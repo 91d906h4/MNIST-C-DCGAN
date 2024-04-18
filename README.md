@@ -8,6 +8,10 @@ This is a handwritten number generator that allows users to utilize prompts.
     <img src="./asset/MNIST.gif" />
 </div>
 
+<div align="center">
+    <img src="./asset/C-DCGAN.png" />
+</div>
+
 ## Installation
 
 ## Usage
