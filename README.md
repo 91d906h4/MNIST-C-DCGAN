@@ -30,7 +30,7 @@ Your attention to this matter is appreciated!
 
 ## License
 
-This project is licensed under the [PROPRIETARY LICENSE](https://github.com/91d906h4/H-Go/blob/main/LICENSE), which prohibits any use, copying, modification, or distribution of the software without explicit written permission from the copyright holder.
+This project is licensed under the [PROPRIETARY LICENSE](https://github.com/91d906h4/MNIST-C-DCGAN/blob/main/LICENSE), which prohibits any use, copying, modification, or distribution of the software without explicit written permission from the copyright holder.
 
 ## References
 
