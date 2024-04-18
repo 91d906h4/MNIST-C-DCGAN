@@ -39,7 +39,7 @@ class Trainer():
         self.device         = device
         self.z_shape        = z_shape
 
-    def _train_discriminator(self, x: torch.Tensor) -> float:
+    def _train_discriminator(self, x: torch.Tensor, label: torch.Tensor) -> float:
         """_train_discriminator private method
         
         The private method to train the discriminator model.
@@ -57,8 +57,11 @@ class Trainer():
         x_real = x.to(device=self.device)
         y_real = torch.ones(self.batch_size, 1).to(device=self.device)
 
+        # The real label of 0 ~ 9.
+        label = label.to(device=self.device)
+
         # Get output of real data from discriminator.
-        output_real = self.d_model(x_real)
+        output_real = self.d_model(x_real, label)
 
         # Calculate loss of real data.
         loss_real = self.d_loss_fn(output_real, y_real)
@@ -72,13 +75,13 @@ class Trainer():
         y_fake = torch.zeros(self.batch_size, 1).to(device=self.device)
 
         # Generate fake data.
-        x_fake = self.g_model(z)
+        x_fake = self.g_model(z, label)
 
         # Detach data from g_model to prevent backpropagation.
         x_fake = x_fake.detach()
 
         # Get output of fake data from discriminator.
-        output_fake = self.d_model(x_fake)
+        output_fake = self.d_model(x_fake, label)
 
         # Calculate loss of fake data.
         loss_fake = self.d_loss_fn(output_fake, y_fake)
@@ -93,7 +96,7 @@ class Trainer():
 
         return loss.item()
 
-    def _train_generator(self, x: torch.Tensor, prompt: torch.Tensor) -> float:
+    def _train_generator(self, x: torch.Tensor, label: torch.Tensor) -> float:
         """_train_generator private method
         
         The private method to train the generator model.
@@ -110,11 +113,15 @@ class Trainer():
         z = torch.randn((self.batch_size, *self.z_shape), dtype=torch.float32).to(device=self.device)
         y = torch.ones(self.batch_size, 1).to(device=self.device)
 
+        # Generate random label of 0 ~ 9.
+        label = torch.randint(0, 10, (self.batch_size))
+        label = label.to(device=self.device)
+
         # Generate fake data.
-        x_fake = self.g_model(z)
+        x_fake = self.g_model(z, label)
 
         # Get output of fake data from discriminator.
-        y_fake = self.d_model(x_fake)
+        y_fake = self.d_model(x_fake, label)
 
         # Calculate loss of fake data.
         loss = self.g_loss_fn(y_fake, y)
@@ -160,7 +167,7 @@ class Trainer():
                 if data.shape[0] != self.batch_size: continue
 
                 # Train discriminator.
-                d_loss += self._train_discriminator(data)
+                d_loss += self._train_discriminator(data, label)
 
                 # Train generator.
                 for _ in range(dg_ratio):
@@ -208,15 +215,20 @@ class Trainer():
         # Generate noise input.
         z = torch.randn((num, *self.z_shape), dtype=torch.float32).to(device=self.device)
 
+        # Generate labels.
+        # The label is a repeating sequence of 0 ~ 9.
+        y = torch.tensor([x % 10 for x in range(num)])
+        y = y.view(-1, 1).to(device=self.device)
+
         # Generate data.
-        outputs = self.g_model(z)
+        outputs = self.g_model(z, y)
 
         # Set figure.
-        figure = plt.figure(figsize=(8, 8))
+        figure = plt.figure(figsize=(10, 10))
 
         for i, image in enumerate(outputs):
             # Set subplot.
-            axes = figure.add_subplot(8, 8, i + 1)
+            axes = figure.add_subplot(10, 10, i + 1)
             axes.set_axis_off()
 
             # Detach data from GPU.
