@@ -47,7 +47,7 @@ To begin, navigate to the `./src/main.ipynb` file and execute the notebook by se
 To produce handwritten numbers, utilize the `trainer.test()` function located in `./src/main.ipynb`. For additional images, employ the `trainer.test(num=num_to_gen)` method, supplying the required quantity using the `num` parameter.
 
 
-If you want to run unconditional DCGAN, please jump to [dd7455e](https://github.com/91d906h4/MNIST-C-DCGAN/tree/dd7455ee1727d4148dada590e0fd710ef787c71a) and download the files.
+If you want to run unconditional DCGAN, please jump to [dd7455e](https://github.com/91d906h4/MNIST-C-DCGAN/tree/dd7455ee1727d4148dada590e0fd710ef787c71a).
 
 ## Demonstration
 
