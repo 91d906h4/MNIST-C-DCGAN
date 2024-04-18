@@ -11,6 +11,9 @@ LEARNING_RATE   = 1e-5          # Learning rate.
 
 # Model.
 Z_SHAPE         = (100, 1, 1)   # Noise shape.
+                                # The first number is the noise
+                                # dimension, and the other is 
+                                # the image shape.
 
 # Trainer.
 EPOCHS          = 10            # Epochs.
