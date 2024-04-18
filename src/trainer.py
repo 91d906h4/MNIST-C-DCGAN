@@ -114,8 +114,7 @@ class Trainer():
         y = torch.ones(self.batch_size, 1).to(device=self.device)
 
         # Generate random label of 0 ~ 9.
-        label = torch.randint(0, 10, (self.batch_size))
-        label = label.to(device=self.device)
+        label = torch.randint(low=0, high=10, size=(self.batch_size, 1)).to(device=self.device)
 
         # Generate fake data.
         x_fake = self.g_model(z, label)
