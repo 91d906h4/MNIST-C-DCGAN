@@ -23,7 +23,7 @@ class Discriminator(nn.Module):
             nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size, padding="same", bias=False),
             nn.BatchNorm2d(out_channels),
             nn.LeakyReLU(negative_slope=0.2, inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.AvgPool2d(kernel_size=2, stride=2),
         )
 
     def forward(self, x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
