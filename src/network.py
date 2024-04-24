@@ -31,7 +31,7 @@ class Discriminator(nn.Module):
         y = y.view(-1, 1, 28, 28) # 784 -> 1 x 28 x 28
 
         # Concatenate image x and label y, make x a
-        # 2 channel input.
+        # 2 channels input.
         x = torch.cat([x, y], dim=1)
 
         x = self.block1(x) # 2 x 28 x 28 -> 64 x 14 x 14
