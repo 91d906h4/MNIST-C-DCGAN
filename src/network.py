@@ -71,7 +71,7 @@ class Generator(nn.Module):
         y = self.embedding(y) # 1 -> z_dim
         y = y.view(-1, 100, 1, 1) # z_dim -> z_dim x 1 x 1
 
-        # Multiply image x and label y.
+        # Multiply noise input x and label y.
         x = x * y
 
         x = self.block1(x) # z_dim x 1 x 1 -> 256 x 4 x 4
