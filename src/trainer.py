@@ -48,6 +48,9 @@ class Trainer():
             x (torch.Tensor): Input data.
             label (torch.Tensor): Text prompt data.
 
+        Returns:
+            float: Discriminator loss.
+
         """
 
         # 1. Train the discriminator with real data.
@@ -105,6 +108,9 @@ class Trainer():
         Args:
             x (torch.Tensor): Input data.
             prompt (torch.Tensor): Text prompt data.
+
+        Returns:
+            float: Generator loss.
 
         """
 
