@@ -168,6 +168,7 @@ class Trainer():
             total = len(self.data_loader)
             counter = 0
 
+            # Iterate over all data in data loader.
             for data, label in self.data_loader:
                 # Skip batch if not enough data.
                 if data.shape[0] != self.batch_size: continue
