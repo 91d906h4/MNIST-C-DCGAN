@@ -62,7 +62,7 @@ The results of our C-DCGAN after two training epochs are shown in the second pic
 
 <div align="center">
     <img src="./assets/C-DCGAN.png" /><br />
-    <i>C-DCGAN after 2 epochs training.</i>
+    <i>C-DCGAN after 10 epochs training.</i>
 </div>
 
 ## Contributing
