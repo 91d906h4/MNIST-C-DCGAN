@@ -18,7 +18,7 @@ Z_SHAPE             = (100, 1, 1)   # Noise shape.
 
 # Trainer.
 EPOCHS              = 10            # Epochs.
-DG_RATIO            = 2             # The number of times to train
+GD_RATIO            = 2             # The number of times to train
                                     # the generator while training
                                     # the discriminator.
 TEST_WHILE_TRAIN    = True          # Whether to test while training.

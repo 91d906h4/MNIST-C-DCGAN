@@ -139,14 +139,14 @@ class Trainer():
 
         return loss.item()
 
-    def train(self, epochs: int, dg_ratio: int, test: bool=False, test_num: int=30) -> None:
+    def train(self, epochs: int, gd_ratio: int, test: bool=False, test_num: int=30) -> None:
         """train public method
         
         The public method to train the discriminator and generator models.
         
         Args:
             epochs (int): The number of epochs.
-            dg_ratio (int): Number of times to train the discriminator while training the generator.
+            gd_ratio (int): Number of times to train the generator while training the discriminator.
             test (bool, optional): Whether to test the model. Defaults to False.
             test_num (int, optional): Number of images to test. (default: 30)
 
@@ -174,11 +174,11 @@ class Trainer():
                 if data.shape[0] != self.batch_size: continue
 
                 # Train discriminator.
-                for _ in range(dg_ratio):
-                    d_loss += self._train_discriminator(data, label) / dg_ratio
+                d_loss += self._train_discriminator(data, label)
 
                 # Train generator.
-                g_loss += self._train_generator(data, label)
+                for _ in range(gd_ratio):
+                    g_loss += self._train_generator(data, label) / gd_ratio
 
                 counter += 1
 
