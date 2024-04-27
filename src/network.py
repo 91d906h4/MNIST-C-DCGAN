@@ -6,10 +6,10 @@ from torch import nn
 class Discriminator(nn.Module):
     def __init__(self, image_size: int) -> None:
         super(Discriminator, self).__init__()
-        self.block1 = self.block(in_channels=2, out_channels=64, kernel_size=4)
-        self.block2 = self.block(in_channels=64, out_channels=128, kernel_size=4)
-        self.block3 = self.block(in_channels=128, out_channels=256, kernel_size=3)
-        self.conv1 = nn.Conv2d(in_channels=256, out_channels=1, kernel_size=3, stride=1, padding=0)
+        self.block1 = self.block(in_channels=2, out_channels=64, kernel_size=4, stride=2, padding=1)
+        self.block2 = self.block(in_channels=64, out_channels=128, kernel_size=4, stride=2, padding=1)
+        self.block3 = self.block(in_channels=128, out_channels=256, kernel_size=3, stride=2, padding=1)
+        self.conv1 = nn.Conv2d(in_channels=256, out_channels=1, kernel_size=4, stride=1, padding=0)
 
         # We have 10 labels (0 ~ 9), so the number of input embedding is 10.
         self.embedding = nn.Embedding(num_embeddings=10, embedding_dim=image_size**2)
@@ -18,12 +18,12 @@ class Discriminator(nn.Module):
         self.sigmoid = nn.Sigmoid()
 
     @staticmethod
-    def block(in_channels: int, out_channels: int, kernel_size: int) -> nn.Sequential:
+    def block(in_channels: int, out_channels: int, kernel_size: int, stride: int, padding: int) -> nn.Sequential:
         return nn.Sequential(
-            nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size, padding="same", bias=False),
+            nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size, stride=stride, padding=padding, bias=False),
             nn.BatchNorm2d(out_channels),
             nn.LeakyReLU(negative_slope=0.2, inplace=True),
-            nn.AvgPool2d(kernel_size=2, stride=2),
+            # nn.AvgPool2d(kernel_size=2, stride=2),
         )
 
     def forward(self, x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
