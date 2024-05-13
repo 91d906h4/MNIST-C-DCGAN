@@ -51,7 +51,7 @@ If you want to run unconditional DCGAN, please jump to [dd7455e](https://github.
 
 ## Demonstration
 
-The results of an GANs are shown in the first GIF. It is clear that the machine has a tendency to produce the number "1" more often. This observation could be explained by the fact that the digit "1" with its inherent simplicity and structural regularity is easier for the model to generate than other digits with more complex structures.
+The results of a GAN are illustrated in the first GIF. Notably, the model appears to frequently generate the digit "1" while neglecting other digits. This phenomenon, known as mode collapse, occurs when the generator of the GAN focuses excessively on producing a limited subset of samples, often those that are easier to generate. In this case, the simplicity and structural regularity of the digit "1" make it a preferred choice for the generator, resulting in an overrepresentation of this digit in the generated images.
 
 <div align="center">
     <img src="./assets/MNIST.gif" /><br />
